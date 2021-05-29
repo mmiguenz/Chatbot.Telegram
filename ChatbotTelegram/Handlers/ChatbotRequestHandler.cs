@@ -1,29 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ChatbotTelegram.Actions;
 using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace ChatbotTelegram.handlers
+namespace ChatbotTelegram.Handlers
 {
     public class ChatbotRequestHandler : IUpdateHandler
     {
-        public UpdateType[]? AllowedUpdates => new List<UpdateType>() {UpdateType.Message}.ToArray();
+        private readonly ProcessMessage _processMessage = new ();
         
+        public UpdateType[]? AllowedUpdates => null;
+
         public async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            IChatBotRequestHandler handler = update.Type switch
-            {
-                UpdateType.Message => new ChatbotMessageHandler(botClient, update.Message),
-                _ => new UnsupportedOperationHandler(botClient)
-            };
-
+            var chatId = update.Message.Chat.Id;
+            await botClient.SendChatActionAsync( chatId: chatId, chatAction: ChatAction.Typing, cancellationToken: cancellationToken);
             try
             {
-                await handler.Handle();
+                string messageData = update.Message.Text;
+                var result = await _processMessage.Execute(chatId, messageData);
+
+                await botClient.SendTextMessageAsync(chatId: chatId, text: messageData, cancellationToken: cancellationToken);
             }
             catch (Exception exception)
             {

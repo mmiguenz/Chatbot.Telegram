@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 
 
-namespace ChatbotTelegram.handlers
+namespace ChatbotTelegram.Handlers
 {
     public class UnsupportedOperationHandler : IChatBotRequestHandler
     {

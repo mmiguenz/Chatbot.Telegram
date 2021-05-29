@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ChatbotTelegram.handlers;
+using ChatbotTelegram.Handlers;
 using Telegram.Bot;
 using Microsoft.Extensions.Configuration;
 
