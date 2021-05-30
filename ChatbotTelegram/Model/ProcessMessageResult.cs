@@ -8,7 +8,7 @@ namespace ChatbotTelegram.Model
         public bool HasErrors { get; set; }
         public Step CurrentStep { get; set; }
         public string CompletionMsg { get; set; }
-        public string IsCompleted { get; set; }
+        public bool IsCompleted { get; set; }
         public IEnumerable<string> Errors { get; set; }
         public IEnumerable<Menu> AvailableMenus;
     }

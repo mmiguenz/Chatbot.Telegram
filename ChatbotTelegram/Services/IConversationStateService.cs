@@ -4,10 +4,10 @@ namespace ChatbotTelegram.Services
 {
     public interface IConversationStateService
     {
-        Task GetCurrentMenuLabel(long chatId, string messageText);
-        Task SetCurrentMenuLabel(long chatId, string messageText);
-        Task SetCurrentMenuTransactionId(long chatId, object menuTransactionId);
-        Task<string> GetCurrentMenuTransactionId(long chatId);
-        Task Reset(long chatId);
+        string GetCurrentMenuLabel(long chatId);
+        void SetCurrentMenuLabel(long chatId, string menuLabel);
+        void SetCurrentMenuTransactionId(long chatId, string menuTransactionId);
+        string GetCurrentMenuTransactionId(long chatId);
+        void Reset(long chatId);
     }
 }

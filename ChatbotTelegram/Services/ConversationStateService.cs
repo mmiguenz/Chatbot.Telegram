@@ -1,31 +1,66 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ChatbotTelegram.Services
 {
     public class ConversationStateService : IConversationStateService
     {
-        public async Task GetCurrentMenuLabel(long chatId, string messageText)
+        private readonly IMemoryCache _memoryCache;
+
+        public ConversationStateService(IMemoryCache memoryCache)
         {
-            throw new System.NotImplementedException();
+            _memoryCache = memoryCache;
         }
-        public async Task SetCurrentMenuLabel(long chatId, string messageText)
+        public string GetCurrentMenuLabel(long chatId)
         {
-            throw new System.NotImplementedException();
+            var key = BuildKey("menuLabel", chatId.ToString());
+
+            return GetCachedValue(key);
+        }
+        public  void SetCurrentMenuLabel(long chatId, string menuLabel)
+        {
+            var key = BuildKey("menuLabel", chatId.ToString());
+
+            SetValue(key, menuLabel);
         }
 
-        public async Task SetCurrentMenuTransactionId(long chatId, object menuTransactionId)
+        public void SetCurrentMenuTransactionId(long chatId, string menuTransactionId)
         {
-            throw new System.NotImplementedException();
+            var key = BuildKey("menuTransactionId", chatId.ToString());
+
+            SetValue(key, menuTransactionId);
         }
 
-        public async Task<string> GetCurrentMenuTransactionId(long chatId)
+        public string GetCurrentMenuTransactionId(long chatId)
         {
-            throw new System.NotImplementedException();
+            var key = BuildKey("menuTransactionId", chatId.ToString());
+
+            return GetCachedValue(key);
         }
 
-        public async Task Reset(long chatId)
+        public void Reset(long chatId)
         {
+            var keyTransaction = BuildKey("menuTransactionId", chatId.ToString());
+            var keyMenuLabel = BuildKey("menuTransactionId", chatId.ToString());
             
+            _memoryCache.Remove(keyTransaction);
+            _memoryCache.Remove(keyMenuLabel);
+        }
+
+        private string BuildKey(string spaceKey, string valueKey)
+        {
+            return $"${spaceKey}_chatId_${valueKey}";
+        }
+        private string GetCachedValue(string key)
+        {
+            _memoryCache.TryGetValue(key, out string entry);
+
+            return entry;
+        }
+        
+        private void SetValue(string key, string value)
+        {
+            _memoryCache.Set(key, value);
         }
     }
 }
