@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2F790C85-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot.Telegram.Core", "src\Chatbot.Telegram.Core\Chatbot.Telegram.Core.csproj", "{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot.Telegram.WebHook", "src\Chatbot.Telegram.WebHook\Chatbot.Telegram.WebHook.csproj", "{D36F68CF-1564-4906-B7F4-B5260F97AD51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,15 @@ Global
 		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36F68CF-1564-4906-B7F4-B5260F97AD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36F68CF-1564-4906-B7F4-B5260F97AD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36F68CF-1564-4906-B7F4-B5260F97AD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36F68CF-1564-4906-B7F4-B5260F97AD51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{129BDC57-C30F-4F5F-B31B-FC3360BC42F5} = {E3FB446A-B3F1-409B-AB23-88E58FDBDE21}
 		{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7} = {2F790C85-25DF-48AE-BE94-8510152483A9}
 		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7} = {E3FB446A-B3F1-409B-AB23-88E58FDBDE21}
+		{D36F68CF-1564-4906-B7F4-B5260F97AD51} = {E3FB446A-B3F1-409B-AB23-88E58FDBDE21}
 	EndGlobalSection
 EndGlobal
