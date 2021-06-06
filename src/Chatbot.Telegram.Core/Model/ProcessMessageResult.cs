@@ -9,7 +9,7 @@ namespace ChatbotTelegram.Model
         public Step CurrentStep { get; set; }
         public string CompletionMsg { get; set; }
         public bool IsCompleted { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public IEnumerable<string> ValidationErrors { get; set; }
         public IEnumerable<Menu> AvailableMenus;
     }
 }

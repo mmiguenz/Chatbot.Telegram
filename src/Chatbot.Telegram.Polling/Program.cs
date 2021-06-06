@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Chatbot.Telegram.Core.Handlers;
 using ChatbotTelegram.Actions;
 using ChatbotTelegram.Handlers;
 using ChatbotTelegram.Services;
@@ -27,7 +28,7 @@ namespace ChatbotTelegram
             services.AddScoped<IConversationStateService, ConversationStateService>();
             services.AddScoped<IOneMenuService, OneMenuService>();
             services.AddScoped<ProcessMessage, ProcessMessage>();
-            
+            services.AddScoped<UpdateHandler, UpdateHandler>();
             services.Add(new ServiceDescriptor(typeof(HttpClient), (_) => GetClient(), ServiceLifetime.Scoped));
             
             await SetUpChatBot(services.BuildServiceProvider());

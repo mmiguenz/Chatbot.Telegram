@@ -1,45 +1,37 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ChatbotTelegram.Actions;
 using ChatbotTelegram.Model;
-using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
-using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace ChatbotTelegram.Handlers
+namespace Chatbot.Telegram.Core.Handlers
 {
-    public class ChatbotRequestHandler : IUpdateHandler
+    public class UpdateHandler
     {
         private readonly ProcessMessage _processMessage;
 
-        public ChatbotRequestHandler(ServiceProvider provider)
+        public UpdateHandler(ProcessMessage processMessage)
         {
-            _processMessage = provider.GetService<ProcessMessage>();
+            _processMessage = processMessage;
         }
-
-        public UpdateType[]? AllowedUpdates => new [] {UpdateType.Message, UpdateType.CallbackQuery};
-
-        public async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        
+        public async Task HandleUpdate(ITelegramBotClient botClient, Update update)
         {
-           
+            var  (chatId, messageData) = update.Type  switch
+            {
+                UpdateType.Message => (update.Message.Chat.Id, update.Message.Text),
+                UpdateType.CallbackQuery => (update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Data),
+                _ => (0, "/start")
+            };
+            
             try
             {
-                var  (chatId, messageData) = update.Type  switch
-                {
-                    UpdateType.Message => (update.Message.Chat.Id, update.Message.Text),
-                    UpdateType.CallbackQuery => (update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Data),
-                    _ => (0, "/start")
-                };
-                
-                await botClient.SendChatActionAsync( chatId: chatId, chatAction: ChatAction.Typing, cancellationToken: cancellationToken);
+                await botClient.SendChatActionAsync( chatId: chatId, chatAction: ChatAction.Typing);
                 
                 var result = await _processMessage.Execute(chatId, messageData);
 
@@ -52,13 +44,13 @@ namespace ChatbotTelegram.Handlers
             }
             catch (Exception exception)
             {
-                await HandleError(botClient, exception, cancellationToken);
+                await botClient.SendTextMessageAsync(chatId: chatId, text: "en este momento no podemos procesar tu consulta \n /start");    
             }
         }
-
+        
         private string GetErrorResponse(ProcessMessageResult result)
         {
-            return string.Join("\n", result.Errors);
+            return string.Join("\n", result.ValidationErrors);
         }
 
         private InlineKeyboardMarkup GetReplyMarkup(ProcessMessageResult result)
@@ -67,9 +59,9 @@ namespace ChatbotTelegram.Handlers
             {
                 return  new InlineKeyboardMarkup( 
                     result.CurrentStep?.Options
-                          .Select(o =>  
-                              new [] {InlineKeyboardButton.WithCallbackData(o.DisplayText, o.Value)})
-                          .ToArray());
+                        .Select(o =>  
+                            new [] {InlineKeyboardButton.WithCallbackData(o.DisplayText, o.Value)})
+                        .ToArray());
             }
 
             return null;
@@ -99,11 +91,6 @@ namespace ChatbotTelegram.Handlers
         private string BuildGlobalMenu(IEnumerable<Menu> resultAvailableMenus)
         {
             return "Bienvenido! \n Opciones Disponibles: \n" + string.Join("\n", resultAvailableMenus.Select(m => $"/{m.Label}  {m.Title}"));
-        }
-
-        public async Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-        {
-            Console.WriteLine(exception.Message);
         }
     }
 }

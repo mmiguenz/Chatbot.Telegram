@@ -87,7 +87,7 @@ namespace ChatbotTelegram.Test.Actions
             
             Assert.NotNull(processMessageResult);
             Assert.Null(processMessageResult.AvailableMenus);
-            Assert.Null(processMessageResult.Errors);
+            Assert.Null(processMessageResult.ValidationErrors);
             Assert.NotNull(processMessageResult.CurrentStep);
             Assert.Equal(Data.step2.Text, processMessageResult.CurrentStep.Text);
         }
@@ -102,7 +102,7 @@ namespace ChatbotTelegram.Test.Actions
             var expectedProcessMessageResult = new ProcessMessageResult()
             {
                 CurrentStep = Data.step1,
-                Errors = new List<string>() {"invalid data"},
+                ValidationErrors = new List<string>() {"invalid data"},
                 HasErrors = true
 
             };
@@ -117,7 +117,7 @@ namespace ChatbotTelegram.Test.Actions
             
             Assert.NotNull(processMessageResult);
             Assert.Null(processMessageResult.AvailableMenus);
-            Assert.NotEmpty(processMessageResult.Errors);
+            Assert.NotEmpty(processMessageResult.ValidationErrors);
             Assert.True(processMessageResult.HasErrors);
             Assert.NotNull(processMessageResult.CurrentStep);
             Assert.Equal(Data.step1.Text, processMessageResult.CurrentStep.Text);

@@ -21,6 +21,11 @@ namespace ChatbotTelegram.Actions
             if (IsCommandMenu(message))
             {
                 _conversationState.Reset(chatId);
+                
+                if (IsResetOrStart(message))
+                    return await ReturnAllMenus();
+                
+                _conversationState.Reset(chatId);
                 var menuLabel = GetMenuLabel(message);
 
                 var transactionId = await _oneMenuService.InitMenuTransaction(menuLabel);
@@ -45,12 +50,21 @@ namespace ChatbotTelegram.Actions
                     _conversationState.Reset(chatId);
                 return processMessageResult;
             }
-            
+
+            return await ReturnAllMenus();
+        }
+
+        private bool IsResetOrStart(string message)
+        {
+            return message == "/start" || message == "/reset";
+        }
+
+        private  async  Task<ProcessMessageResult> ReturnAllMenus()
+        {
             return new ProcessMessageResult()
             {
                 AvailableMenus = await _oneMenuService.GetAllMenus()
             };
-
         }
 
         private string GetMenuLabel(string message)

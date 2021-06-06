@@ -1,8 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotTelegram", "ChatbotTelegram\ChatbotTelegram.csproj", "{129BDC57-C30F-4F5F-B31B-FC3360BC42F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot.Telegram.Polling", "src\Chatbot.Telegram.Polling\Chatbot.Telegram.Polling.csproj", "{129BDC57-C30F-4F5F-B31B-FC3360BC42F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotTelegram.Test", "ChatbotTelegram.Test\ChatbotTelegram.Test.csproj", "{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot.Telegram.Core.Test", "test\Chatbot.Telegram.Core.Test\Chatbot.Telegram.Core.Test.csproj", "{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E3FB446A-B3F1-409B-AB23-88E58FDBDE21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2F790C85-25DF-48AE-BE94-8510152483A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatbot.Telegram.Core", "src\Chatbot.Telegram.Core\Chatbot.Telegram.Core.csproj", "{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +24,14 @@ Global
 		{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{129BDC57-C30F-4F5F-B31B-FC3360BC42F5} = {E3FB446A-B3F1-409B-AB23-88E58FDBDE21}
+		{7A2E756A-DD87-4E86-81CA-D6FEF16C2BB7} = {2F790C85-25DF-48AE-BE94-8510152483A9}
+		{3337FB0F-2E35-45FA-9BD8-A17C99B255C7} = {E3FB446A-B3F1-409B-AB23-88E58FDBDE21}
 	EndGlobalSection
 EndGlobal
