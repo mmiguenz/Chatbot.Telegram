@@ -1,20 +1,14 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
-WORKDIR /app
+﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0
+COPY bin/Release/net5.0 App/
+ARG ONEMENU_URL
+ARG TELEGRAM_TOKEN
+
+ENV OneMenuServiceUrl=$ONEMENU_URL
+ENV chatbotToken=$TELEGRAM_TOKEN
+
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-WORKDIR /src
-COPY ["src/Chatbot.Telegram.WebHook/Chatbot.Telegram.WebHook.csproj", "Chatbot.Telegram.WebHook/"]
-RUN dotnet restore "src/Chatbot.Telegram.WebHook/Chatbot.Telegram.WebHook.csproj"
-COPY . .
-WORKDIR "/src/Chatbot.Telegram.WebHook"
-RUN dotnet build "Chatbot.Telegram.WebHook.csproj" -c Release -o /app/build
+WORKDIR /App
 
-FROM build AS publish
-RUN dotnet publish "Chatbot.Telegram.WebHook.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Chatbot.Telegram.WebHook.dll"]
